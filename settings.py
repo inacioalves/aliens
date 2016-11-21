@@ -10,12 +10,13 @@ class Settings():
         self.screen_witdh  = 960
         self.screen_height = 710
         self.bg_color      = (230, 230, 230)
-        
+
         # Configuracoes da nave
         self.ship_speed_factor = 1.5
-        
+
         # Configuracoes dos projeteis
         self.bullet_speed_factor = 1
         self.bullet_width = 3
         self.bullet_height= 15
         self.bullet_color = (60,60,60)
+        self.bullets_allowed = 3

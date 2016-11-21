@@ -12,14 +12,14 @@ class Ship():
         self.image = pygame.image.load('images/ship.bmp')
         self.rect  = self.image.get_rect()
         self.screen_rect = screen.get_rect()
-    
+
         # Inicia cada nova nave na parte inferior
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom  = self.screen_rect.bottom
-        
+
         # Armazena um valor decimal para o centro da nave
         self.center = float(self.rect.centerx)
-        
+
         # Flags de movimento
         self.moving_right = False
         self.moving_left  = False
@@ -35,6 +35,6 @@ class Ship():
             self.center += self.ai_settings.ship_speed_factor
         elif self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor
-            
+
         # Atualiza o objeto rect
         self.rect.centerx = self.center
