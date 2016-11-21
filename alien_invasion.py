@@ -6,12 +6,11 @@ Created on Sun Nov 20 21:59:46 2016
 @author: inacio
 """
 
-import sys
 import pygame
 
 from settings import Settings
 from ship import Ship
-
+import game_functions as gf
 
 def run_game():
     # Inicia o jogo e cria um objeto tela
@@ -26,16 +25,8 @@ def run_game():
     
     # Laco principal do jogo
     while True:
-        
-        # Observador de eventos
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT:
-                sys.exit()
-        
-        # Redesenha a tela
-        screen.fill(ai_settings.bg_color)
-        ship.blitme()
-
-        pygame.display.flip()
+        gf.check_events(ship)
+        ship.update()
+        gf.update_screen(ai_settings,screen,ship)
 
 run_game()

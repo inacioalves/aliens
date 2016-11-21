@@ -15,7 +15,19 @@ class Ship():
         # Inicia cada nova nave na parte inferior
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom  = self.screen_rect.bottom
+        
+        # Flags de movimento
+        self.moving_right = False
+        self.moving_left  = False
 
     def blitme(self):
         """Desenha a nave em sua posicao atual."""
         self.screen.blit(self.image, self.rect)
+
+    def update(self):
+        """Atualiza a posicao da nave de acordo com as flags
+           de movimento"""
+        if self.moving_right:
+            self.rect.centerx += 1
+        elif self.moving_left:
+            self.rect.centerx -= 1
