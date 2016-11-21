@@ -55,7 +55,7 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     pygame.display.flip()
 
 
-def update_bullets(bullets):
+def update_bullets(aliens, bullets):
     """Atualiza a posicao dos bullets e apaga os bullets antigos."""
     # Atualiza a posicao dos projeteis
     bullets.update()
@@ -64,6 +64,8 @@ def update_bullets(bullets):
     for bullet in bullets.copy():
         if bullet.rect.bottom == 0:
             bullets.remove(bullet)
+    
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
 
 
 def fire_bullet( ai_settings, screen, ship, bullets ):
@@ -102,6 +104,27 @@ def create_alien(ai_settings, screen, alien_number, row_number,
     #aliens.add(alien)
 
 
+def check_fleet_edges(ai_settings, aliens):
+    """altera a direcao de um alien que chegou a borda"""
+    for alien in aliens:
+        if alien.check_edges():
+            change_fleet_direction(ai_settings, aliens)
+            return
+
+
+def change_fleet_direction(ai_settings, aliens):
+    """Faz toda a frota mudar de direcao"""
+    for alien in aliens:
+        alien.rect.y += ai_settings.fleet_drop_speed
+    ai_settings.fleet_direction = -ai_settings.fleet_direction
+
+
+def update_aliens(ai_settings, aliens):
+    """Atualiza as posicoes dos aliens"""
+    check_fleet_edges(ai_settings, aliens)
+    aliens.update()
+
+
 def get_number_aliens_x(ai_settings, screen, factor_x):
     """Determina o numero de aliens que cabem em uma linha"""
     alien = Alien(ai_settings, screen)
@@ -117,4 +140,6 @@ def get_number_rows(ai_settings, screen, ship_height, factor_y):
     alien_height = alien.rect.height
     available_space = ai_settings.screen_height - 3*alien_height - ship_height
     number_rows = int(available_space / (factor_y*alien_height) )
+    #if number_rows > ai_settings.aliens_max_y:
+    #    number_rows = ai_settings.aliens_max_y
     return number_rows
